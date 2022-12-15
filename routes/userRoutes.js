@@ -1,28 +1,40 @@
-const users = require('express').Router()
-const { User } = require('../models')
+const users = require("express").Router();
+const { User } = require("../models");
 
-users.get('/', (req, res) => {
-  User.findAll()
-    .then(users => res.json(users))
-    .catch(err => console.error(err))
-})
+users.get("/", async (req, res) => {
+  try {
+    const users = await User.findAll();
+    return res.json(users);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
-users.post('/', (req, res) => {
-  User.create(req.body)
-    .then(user => res.json(user))
-    .catch(err => console.error(err))
-})
+users.post("/", async (req, res) => {
+  try {
+    const user = await User.create(req.body);
+    return res.json(user);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
-users.put('/:id', (req, res) => {
-  User.update(req.body, { where: { id: req.params.id } })
-    .then(user => res.json(user))
-    .catch(err => console.error(err))
-})
+users.put("/:id", async (req, res) => {
+  try {
+    const id = await User.update(req.body, { where: { id: req.params.id } });
+    return res.json({ id });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
-users.delete('/:id', (req, res) => {
-  User.destroy({ where: { id: req.params.id } })
-    .then(user => res.json(user))
-    .catch(err => console.error(err))
-})
+users.delete("/:id", async (req, res) => {
+  try {
+    const id = await User.destroy({ where: { id: req.params.id } });
+    return res.json({ id });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
-module.exports = users
+module.exports = users;

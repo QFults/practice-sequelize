@@ -1,3 +1,3 @@
 const Sequelize = require('sequelize')
 
-module.exports = new Sequelize('mysql://root:rootroot@localhost/blog_db')
+module.exports = new Sequelize(process.env.CONNECTION_URI)
