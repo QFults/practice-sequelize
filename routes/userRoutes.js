@@ -1,4 +1,5 @@
 const users = require("express").Router();
+const bcrypt = require("bcrypt");
 const { User } = require("../models");
 
 users.get("/", async (req, res) => {
@@ -10,9 +11,33 @@ users.get("/", async (req, res) => {
   }
 });
 
+users.post('/login', async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { email: req.body.email } })
+
+    if (!user) {
+      res.status(404).json({ message: 'Login failed.' })
+      return
+    }
+
+    const validPassword = await bcrypt.compare(req.body.password, user.password)
+
+    if (!validPassword) {
+      res.status(400).json({ message: 'Login failed.' })
+      return
+    }
+
+    res.status(200).json({ message: "Login Successful!"})
+  } catch (err) {
+    res.status(500).json(err)
+  }
+})
+
 users.post("/", async (req, res) => {
   try {
-    const user = await User.create(req.body);
+    const newUser = req.body;
+    newUser.password = await bcrypt.hash(req.body.password, 10);
+    const user = await User.create(newUser);
     return res.json(user);
   } catch (err) {
     res.status(500).json(err);
