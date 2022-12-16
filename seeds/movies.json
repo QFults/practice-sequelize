@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Goodfellas",
+    "userId": 1
+  },
+   {
+    "title": "The Room",
+    "userId": 2
+   },
+   {
+    "title": "Rocky Horror",
+    "userId": 3
+   },
+   {
+    "title": "Guardians of the Galaxy",
+    "userId": 1
+   },
+   {
+    "title": "The Apple",
+    "userId": 2
+   }
+]
