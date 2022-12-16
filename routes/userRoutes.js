@@ -46,7 +46,10 @@ users.post("/", async (req, res) => {
 
 users.put("/:id", async (req, res) => {
   try {
-    const id = await User.update(req.body, { where: { id: req.params.id } });
+    const id = await User.update(req.body, { 
+      where: { id: req.params.id },
+      individualHooks: true 
+    });
     return res.json({ id });
   } catch (err) {
     res.status(500).json(err);

@@ -30,6 +30,16 @@ User.init(
     }
   },
   {
+    hooks: {
+      beforeCreate: async (newUser) => {
+        newUser.email = await newUser.email.toLowerCase()
+        return newUser
+      },
+      beforeUpdate: async (updatedUser) => {
+        updatedUser.email = await updatedUser.email.toLowerCase()
+        return updatedUser
+      }
+    },
     sequelize,
     timestamps: true,
     modelName: "user",
